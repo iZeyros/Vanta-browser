@@ -54,6 +54,8 @@ prévenir seulement, ou jamais. L'installateur télécharge lui aussi la derniè
 
 Le script met à jour le numéro de version, compile, **signe** `vanta.exe`, compile
 l'installateur et publie la release (`vanta.exe`, `vanta.exe.sig`, `VantaSetup.exe`).
+Avec `-Store`, il crée aussi le paquet Microsoft Store (`dist\Vanta-<version>.msix`, signé par
+Microsoft après envoi dans le Partner Center). Voir [SIGNATURE.md](SIGNATURE.md).
 Lien permanent vers le dernier installateur :
 `https://github.com/<pseudo>/vanta/releases/latest/download/VantaSetup.exe`.
 
@@ -108,16 +110,23 @@ src/
                  Job Object CPU, détection de jeu plein écran
   win/pages.rs   pages internes vanta:// embarquées + script injecté dans les onglets
   win/notify.rs  notifications : modèle unique, centre (cloche), actions gardées côté Rust
+  win/groups.rs  groupes d'onglets (couleurs, onglets toujours côte à côte)
   favicons.rs    cache des icônes de sites
 ui/              interface (chrome.html), pages internes (start, settings, history…),
-                 menu déroulant (flyout.html : téléchargements, bouclier, notifications)
-                 et pile de notifications (notify.html)
+                 menu déroulant (flyout.html : téléchargements, bouclier, notifications,
+                 dossiers de favoris en cascade, recherche d'onglets), pile de notifications
+                 (notify.html), mode lecture (reader.html), listes déroulantes arrondies (select.js)
+ui/vendor/       Readability.js (Mozilla, licence Apache 2.0) pour le mode lecture
 assets/          icône de l'application (vanta.ico, app-icon.svg)
 installer/       VantaSetup : installateur / désinstalleur (Rust + WebView2)
 crates/vanta-update/  mises à jour : GitHub Releases, téléchargement, signature Ed25519
 tools/release/   vanta-release : clé de signature + signature des versions
 release.json     dépôt GitHub des mises à jour
 ```
+
+Le menu déroulant et les notifications sont des **fenêtres flottantes transparentes**
+rattachées à la fenêtre principale : la page dessine elle-même les coins arrondis et
+l'ombre, et le menu peut déborder de la fenêtre (sous-menus des dossiers).
 
 Toutes les WebView partagent **un seul environnement WebView2** (mêmes processus navigateur/GPU).
 Les onglets masqués passent en `MemoryUsageTargetLevel::Low`, et les onglets restaurés ne sont
@@ -130,6 +139,8 @@ block_stats.json, profil WebView2).
 
 - Les pages internes `vanta://` ont accès à l'API de Vanta ; Rust vérifie l'**origine exacte**
   (`https://vanta.localhost/`) de chaque message, les pages web n'y ont pas accès.
+- Mode lecture : l'article extrait d'un site est nettoyé (liste blanche de balises, liens et
+  images http(s) seulement) puis affiché dans une iframe `sandbox` sans script, avec sa propre CSP.
 - Raccourcis clavier capturés **nativement** (WebView2 `AcceleratorKeyPressed`) : une page ne
   peut pas les déclencher.
 - Pages internes servies avec une CSP stricte, `frame-ancestors 'none'` et `nosniff` ;
