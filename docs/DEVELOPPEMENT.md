@@ -99,16 +99,19 @@ clic droit sur un onglet : actions (dupliquer, écran partagé, son, décharger,
 src/
   main.rs        point d'entrée
   storage.rs     paramètres, favoris, session, téléchargements (JSON) + historique (SQLite)
-  blocker.rs     listes de filtres + moteur adblock-rust
+  blocker.rs     listes de filtres, 2 moteurs adblock-rust (pubs / traqueurs EasyPrivacy)
   import.rs      import Chromium (Bookmarks JSON, History SQLite)
   games.rs       flux des jeux gratuits (GamerPower, cache 1 h)
-  sysmon.rs      RAM/CPU de Vanta + tous ses processus WebView2
+  sysmon.rs      RAM (mémoire privée) / CPU de Vanta + ses processus WebView2
   win/mod.rs     fenêtre tao, WebView enfants, IPC, politique mémoire, limiteurs
   win/native.rs  COM WebView2 (requêtes, CDP, suspension, audio, extensions),
                  Job Object CPU, détection de jeu plein écran
   win/pages.rs   pages internes vanta:// embarquées + script injecté dans les onglets
+  win/notify.rs  notifications : modèle unique, centre (cloche), actions gardées côté Rust
   favicons.rs    cache des icônes de sites
-ui/              interface (chrome.html) et pages internes (start, settings, history…)
+ui/              interface (chrome.html), pages internes (start, settings, history…),
+                 menu déroulant (flyout.html : téléchargements, bouclier, notifications)
+                 et pile de notifications (notify.html)
 assets/          icône de l'application (vanta.ico, app-icon.svg)
 installer/       VantaSetup : installateur / désinstalleur (Rust + WebView2)
 crates/vanta-update/  mises à jour : GitHub Releases, téléchargement, signature Ed25519
@@ -120,7 +123,8 @@ Toutes les WebView partagent **un seul environnement WebView2** (mêmes processu
 Les onglets masqués passent en `MemoryUsageTargetLevel::Low`, et les onglets restaurés ne sont
 créés qu'au premier clic.
 
-Données : `%APPDATA%\Vanta` (settings.json, bookmarks.json, session.json, history.sqlite, profil WebView2).
+Données : `%APPDATA%\Vanta` (settings.json, bookmarks.json, session.json, history.sqlite,
+block_stats.json, profil WebView2).
 
 ## Sécurité
 
