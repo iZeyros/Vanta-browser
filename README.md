@@ -34,7 +34,7 @@ compatibilité avec tous les sites et des outils pensés pour les joueurs.
 - **Hub gaming** : la page d'accueil liste les jeux gratuits du moment (Epic, Steam, GOG, Prime Gaming, itch.io).
 
 ### 🛡️ Confidentialité
-- **Bloqueur de pubs et de traqueurs** intégré (moteur de Brave, listes EasyList, EasyPrivacy, uBlock et Liste FR). Un clic sur le bouclier l'autorise sur un site.
+- **Bloqueur de pubs et de traqueurs** intégré (moteur de Brave, listes EasyList, EasyPrivacy, uBlock et Liste FR). Un clic sur le bouclier ouvre son menu : pubs et traqueurs bloqués sur la page, domaines concernés, total depuis l'installation et interrupteur pour le site.
 - **Navigation privée** (Ctrl+Maj+N) : fenêtre séparée dont l'historique, les cookies et les données de sites sont effacés à la fermeture.
 - **Protection SmartScreen** de Microsoft activée par défaut.
 
@@ -44,6 +44,7 @@ compatibilité avec tous les sites et des outils pensés pour les joueurs.
 - **Écran partagé** : deux pages côte à côte (Ctrl+clic sur un onglet).
 - **Favoris avec dossiers** (glisser-déposer, sélection multiple), historique, et menu des téléchargements avec progression et temps restant.
 - **Import** des favoris et de l'historique depuis Chrome, Edge, Brave, Opera et Opera GX.
+- **Notifications regroupées** : téléchargements, mises à jour, mode jeu… s'affichent toutes au même endroit, dans le même style, et restent consultables dans le centre de notifications (cloche).
 - Extensions Chrome (version décompressée), thème sombre avec couleur d'accent au choix.
 
 ![Gestionnaire de favoris](docs/screenshots/favoris.png)
@@ -86,6 +87,12 @@ installation : un fichier modifié ou une ancienne version déguisée est refus�
 Une page consomme autant que dans n'importe quel navigateur Chromium. La différence vient
 de la gestion des onglets : veille, déchargement, chargement à la demande et plafonds du GX Control.
 
+**Pourquoi le Gestionnaire des tâches n'affiche-t-il que quelques Mo pour `vanta.exe` ?**
+`vanta.exe` ne contient que l'interface. Les pages tournent dans les processus
+« Microsoft Edge WebView2 » que Vanta lance : déplie le groupe Vanta dans le Gestionnaire
+des tâches pour les voir. Le GX Control additionne les deux et affiche le détail
+(interface / moteur web), en mémoire privée comme la colonne « Mémoire » du Gestionnaire.
+
 **Un site du panneau latéral s'affiche mal ?**
 Clique sur « Mobile » dans la barre du panneau pour passer en version bureau, puis ajuste la largeur ou le zoom.
 
@@ -99,4 +106,4 @@ La compilation, l'architecture et la publication des versions sont décrites dan
 
 ---
 
-<div align="center">© Yolann — Vanta</div>
+<div align="center">Vanta</div>
