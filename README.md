@@ -13,33 +13,53 @@ Il se fait discret quand tu joues, bloque les pubs par défaut et garde tes appl
 
 ### [⬇ Télécharger Vanta pour Windows](https://github.com/iZeyros/Vanta-browser/releases/latest/download/VantaSetup.exe)
 
+**Français** · [English](docs/README.en.md)
+
 </div>
 
 <br>
 
-![Interface de Vanta : page d'accueil et panneau GX Control](docs/screenshots/interface.png)
+![Interface de Vanta : page d'accueil et panneau Vanta Core](docs/screenshots/interface.png)
 
 ## Pourquoi Vanta ?
 
-Vanta est un navigateur inspiré d'Opera GX, écrit en **Rust** et basé sur **WebView2**,
+Vanta est un navigateur pensé pour les joueurs, écrit en **Rust** et basé sur **WebView2**,
 le moteur Chromium d'Edge déjà présent dans Windows. Résultat : un installateur léger, une
-compatibilité avec tous les sites et des outils pensés pour les joueurs.
+compatibilité avec tous les sites, une consommation de RAM surveillée de près et des outils
+pour jouer sans que le navigateur te ralentisse.
 
 ## Fonctionnalités
 
 ### 🎮 Pensé pour le jeu
-- **GX Control** : limite la **RAM**, le **CPU** et le **réseau** utilisés par le navigateur, avec graphiques en direct.
+- **Vanta Core** : limite la **RAM**, le **CPU** et le **réseau** utilisés par le navigateur, avec graphiques en direct.
 - **Mode jeu automatique** : dès qu'un jeu passe en plein écran, Vanta resserre ses limites et met en veille les onglets en arrière-plan. Il redevient normal quand tu quittes le jeu.
 - **Onglets en veille** : les onglets inactifs sont suspendus puis déchargés (processus fermé), et ceux de la dernière session ne se chargent qu'au premier clic. Les applis du panneau latéral sont fermées quand tu fermes le panneau, sauf la musique (Spotify, ou toute appli qui joue du son).
+- **Lecture automatique bloquée** : une vidéo ou un son qui démarre tout seul est mis en pause tant que tu n'as pas cliqué dans la page (réglable, exceptions par site depuis le cadenas).
+- **Démarrage rapide** : le bloqueur est gardé prêt à l'emploi sur le disque (quelques millisecondes au lieu d'une demi-seconde).
+- **RAM au plus bas** : un seul processus par site (l'interface et ses menus en partagent un), pas de pages préchargées en cachette, mémoire libérée en jeu et quand Vanta reste réduit, et onglets d'arrière-plan déchargés automatiquement si Windows manque de RAM.
 - **Hub gaming** : la page d'accueil liste les jeux gratuits du moment (Epic, Steam, GOG, Prime Gaming, itch.io).
+- **Alerte jeux gratuits** (au choix, désactivée par défaut) : une notification dès qu'un jeu devient gratuit sur les boutiques que tu suis, avec un bouton pour le récupérer.
+- **Mode immersif** (F11) : plein écran sans aucune barre ; approche la souris du haut de l'écran pour les faire réapparaître.
+- **Thèmes complets** : Vanta, Minuit, Néon, Forêt, Braise et Noir OLED changent toutes les couleurs de l'interface, en plus de la couleur d'accent.
 
 ### 🛡️ Confidentialité
 - **Bloqueur de pubs et de traqueurs** intégré (moteur de Brave, listes EasyList, EasyPrivacy, uBlock et Liste FR). Un clic sur le bouclier ouvre son menu : pubs et traqueurs bloqués sur la page, domaines concernés, total depuis l'installation et interrupteur pour le site.
 - **Navigation privée** (Ctrl+Maj+N) : fenêtre séparée dont l'historique, les cookies et les données de sites sont effacés à la fermeture.
 - **Mots de passe et formulaires** : Vanta propose d'enregistrer tes mots de passe et remplit les formulaires (réglable, effaçable).
+- **Autorisations des sites** : micro, caméra, position, notifications… Vanta te demande avant (« Autoriser » / « Bloquer ») et retient ton choix pour chaque site. Le cadenas de la barre d'adresse permet de changer d'avis.
+- **Téléchargements surveillés** : un programme ou un script demande confirmation avant d'être ouvert, un faux document (« facture.pdf.exe ») est bloqué, un programme reçu sans chiffrement (http) est mis en pause, et chaque fichier est marqué comme venant d'Internet pour que Windows le vérifie.
+- **Liens dangereux bloqués** : les liens qui lancent des outils de Windows utilisés par des attaques (`ms-msdt:`, `search-ms:`, `ms-appinstaller:`…) sont bloqués ; un site ne peut pas ouvrir les pages de réglages de Vanta.
 - **Protection SmartScreen** de Microsoft activée par défaut.
 
 ### 🧭 Navigation
+- **Mots-clés de recherche** : `yt minecraft` cherche sur YouTube, `w Paris` sur Wikipédia, `steam`, `tw`, `r`, `gh`, `amz`, `maps`… et tes propres mots-clés.
+- **Extensions du Chrome Web Store et des modules Edge** : sur la page d'une extension, clique sur **+ Ajouter à Vanta** dans la barre d'adresse. Vanta télécharge le paquet officiel, vérifie sa signature, te montre ce qu'elle pourra faire, puis l'installe ; elle se met ensuite à jour toute seule.
+- **Bouton Extensions** : active une extension, ouvre son popup sous le bouton ou ses options, en un clic.
+- **Barre d'adresse intelligente** : suggestions tirées de tes onglets ouverts, favoris et historique, complétion automatique du site (« yout » → youtube.com) et, en option, suggestions du moteur de recherche.
+- **Onglets épinglés** : compacts, toujours à gauche, gardés dans la session et jamais déchargés par la mise en veille automatique (clic droit sur un onglet › « Épingler »).
+- **Zoom par site** : Ctrl+molette ou Ctrl+plus / moins, retenu pour chaque site (Ctrl+0 pour revenir à 100 %).
+- **Récupération après un plantage** : une page qui plante se recharge toute seule, un onglet en arrière-plan est simplement rechargé quand tu y reviens, et si le moteur web s'arrête entièrement, Vanta redémarre et restaure tes onglets.
+- **Bloc-notes** dans le panneau latéral : notes enregistrées automatiquement sur ton PC (codes, builds, astuces…).
 - **Panneau latéral** : Discord, YouTube Music, Spotify ou tes propres sites, en version mobile ou bureau, avec largeur et zoom réglables. La musique continue pendant que tu navigues.
 - **Lecteur réduit** : survole une vidéo (YouTube, Twitch…) et clique sur « Lecteur réduit ». Elle flotte au-dessus de toutes tes fenêtres, même en jeu.
 - **Écran partagé** : deux pages côte à côte (Ctrl+clic sur un onglet).
@@ -49,9 +69,16 @@ compatibilité avec tous les sites et des outils pensés pour les joueurs.
 - **Mode lecture** (F9) : l'article seul, sans pub ni menu, avec taille, police et thème réglables. **Traduction** des pages en un clic.
 - **Fonds d'écran d'accueil** : aurore, grille rétro, particules, ou ton image, GIF ou vidéo.
 - **Favoris avec dossiers** (sélection multiple), historique, et menu des téléchargements avec progression et temps restant.
-- **Import** des favoris et de l'historique depuis Chrome, Edge, Brave, Opera et Opera GX.
+- **Import** des favoris et de l'historique depuis Chrome, Edge, Brave, Opera et Opera GX, et **export** des favoris en fichier HTML standard.
+- **Journal de diagnostic** local (aucune télémétrie) : en cas de problème, *Réglages › Diagnostic › Copier le rapport* pour ouvrir un ticket.
 - **Notifications regroupées** : téléchargements, mises à jour, mode jeu… s'affichent toutes au même endroit, dans le même style, et restent consultables dans le centre de notifications (cloche).
-- Extensions Chrome (version décompressée), thème sombre avec couleur d'accent au choix.
+- **En français ou en anglais** : la langue de Windows est choisie automatiquement, modifiable dans *Réglages › Général*.
+- **Assistant de premier lancement** : langue, thème, recherche, bloqueur, jeux gratuits et import de tes favoris en quelques clics.
+- **Infobulles, menus et notifications** au style de Vanta, et réglages appliqués immédiatement partout, sans recharger les pages.
+
+![Bloc-notes dans le panneau latéral et thème Minuit](docs/screenshots/notes.png)
+
+![Assistant de premier lancement](docs/screenshots/assistant.png)
 
 ![Gestionnaire de favoris](docs/screenshots/favoris.png)
 
@@ -80,11 +107,13 @@ L'installateur télécharge toujours la dernière version. **Vanta se met ensuit
 | `Ctrl+Maj+N` | Fenêtre de navigation privée |
 | `Ctrl+Espace` | Rechercher un onglet, un favori, l'historique |
 | `F9` | Mode lecture |
-| `Ctrl+L` / `F6` | Barre d'adresse |
+| `F11` | Mode immersif (plein écran sans barres) |
+| `Ctrl+L` / `F6` | Barre d'adresse (↑ ↓ pour choisir une suggestion) |
+| `Ctrl+molette` · `Ctrl+plus` / `Ctrl+moins` · `Ctrl+0` | Zoom de la page (retenu pour le site) · 100 % |
 | `Ctrl+D` | Ajouter aux favoris |
 | `Ctrl+H` / `Ctrl+J` | Historique / téléchargements |
 | `Ctrl+Maj+O` | Gestionnaire de favoris |
-| `F12` | Outils de développement |
+| `F12` | Outils de développement (sur les sites) |
 
 ## Sécurité des mises à jour
 
@@ -96,12 +125,12 @@ installation : un fichier modifié ou une ancienne version déguisée est refus�
 
 **Vanta consomme-t-il moins de RAM que Chrome ?**
 Une page consomme autant que dans n'importe quel navigateur Chromium. La différence vient
-de la gestion des onglets : veille, déchargement, chargement à la demande et plafonds du GX Control.
+de la gestion des onglets : veille, déchargement, chargement à la demande et plafonds de Vanta Core.
 
 **Pourquoi le Gestionnaire des tâches n'affiche-t-il que quelques Mo pour `vanta.exe` ?**
 `vanta.exe` ne contient que l'interface. Les pages tournent dans les processus
 « Microsoft Edge WebView2 » que Vanta lance : déplie le groupe Vanta dans le Gestionnaire
-des tâches pour les voir. Le GX Control additionne les deux et affiche le détail
+des tâches pour les voir. Vanta Core additionne les deux et affiche le détail
 (interface / moteur web), en mémoire privée comme la colonne « Mémoire » du Gestionnaire.
 
 **Un site du panneau latéral s'affiche mal ?**
