@@ -2,7 +2,7 @@
 
 > Présentation et téléchargement : voir le [README](../README.md).
 
-Navigateur Windows inspiré d'Opera GX, écrit en Rust avec **WebView2** (le moteur Chromium
+Navigateur Windows pensé pour les joueurs, écrit en Rust avec **WebView2** (le moteur Chromium
 d'Edge déjà installé sur Windows 10/11). L'interface est en HTML/CSS dans une WebView dédiée,
 toute la logique (onglets, limiteurs, bloqueur, stockage) est en Rust.
 
@@ -71,7 +71,7 @@ mise à jour ne sera acceptée par les installations existantes.
 
 | Domaine | Détail |
 |---|---|
-| **GX Control** | Limiteur **RAM** (suspension puis déchargement des onglets les plus anciens), plafond **CPU** strict (Job Object Windows), limiteur **réseau** par onglet (DevTools Protocol), suspension auto des onglets inactifs, graphiques en direct |
+| **Vanta Core** | Limiteur **RAM** (suspension puis déchargement des onglets les plus anciens), plafond **CPU** strict (Job Object Windows), limiteur **réseau** par onglet (DevTools Protocol), suspension auto des onglets inactifs, graphiques en direct |
 | **Mode jeu** | Détection auto d'un jeu plein écran (exclusif ou fenêtré sans bordure) → limites renforcées + suspension des onglets d'arrière-plan. Modes Auto / Forcé / Off |
 | **Bloqueur** | adblock-rust (moteur de Brave) avec EasyList, EasyPrivacy, uBlock filters et Liste FR, masquage cosmétique, liste blanche par site (clic sur le bouclier) |
 | **Panneau latéral** | Discord, YouTube Music, Spotify (sessions conservées, la musique continue en arrière-plan) + apps perso dans les réglages. Chaque appli s'affiche en **version mobile portrait** (émulation téléphone) ou bureau, avec zoom, largeur réglable (glisser le bord) et ouverture en onglet |
@@ -100,21 +100,40 @@ clic droit sur un onglet : actions (dupliquer, écran partagé, son, décharger,
 ```
 src/
   main.rs        point d'entrée
-  storage.rs     paramètres, favoris, session, téléchargements (JSON) + historique (SQLite)
+  storage.rs     paramètres, favoris, session, téléchargements, réglages par site (JSON)
+                 + historique (SQLite)
+  suggest.rs     suggestions du moteur de recherche (option, désactivée par défaut)
+  crx.rs         extensions des magasins : adresse de téléchargement, vérification CRX3
+                 (signature RSA du développeur), décompression ZIP sûre, autorisations en clair
+  diag.rs        journal de diagnostic local (logs\vanta.log, panique, rapport)
+  extinfo.rs     manifestes des extensions (nom traduit, popup, options, identifiant)
+  security.rs    règles de sécurité testables partout : origine des pages internes, fenêtres
+                 ouvertes par les sites, schémas externes bloqués, téléchargements à risque
   blocker.rs     listes de filtres, 2 moteurs adblock-rust (pubs / traqueurs EasyPrivacy)
   import.rs      import Chromium (Bookmarks JSON, History SQLite)
-  games.rs       flux des jeux gratuits (GamerPower, cache 1 h)
+  games.rs       flux des jeux gratuits (GamerPower, cache 1 h) + tri des nouveaux pour l'alerte
+  theme.rs       thèmes complets (palettes) servis en vanta://theme.css
+  i18n.rs        langue (fr / en / celle de Windows) ; dictionnaire ui/i18n-en.json servi avec le
+                 traducteur ui/i18n.js en vanta://i18n.js, et tr() pour les textes natifs
+  notes.rs       bloc-notes du panneau latéral (notes.json, limites)
   sysmon.rs      RAM (mémoire privée) / CPU de Vanta + ses processus WebView2
   win/mod.rs     fenêtre tao, WebView enfants, IPC, politique mémoire, limiteurs
-  win/native.rs  COM WebView2 (requêtes, CDP, suspension, audio, extensions),
-                 Job Object CPU, détection de jeu plein écran
+  win/native.rs  COM WebView2 (requêtes, CDP, suspension, audio, extensions, plantages,
+                 zoom, autorisations), Job Object CPU, détection de jeu plein écran
+  win/omni.rs    suggestions de la barre d'adresse (onglets, favoris, historique, complétion)
+  win/site.rs    zoom mémorisé par site, demandes d'autorisation (bulle) et menu du cadenas
+  win/crash.rs   récupération après plantage (rechargement, page « Oups », redémarrage)
+  win/extensions.rs  bouton Extensions : liste et popup d'extension sous le bouton
   win/pages.rs   pages internes vanta:// embarquées + script injecté dans les onglets
   win/notify.rs  notifications : modèle unique, centre (cloche), actions gardées côté Rust
   win/groups.rs  groupes d'onglets (couleurs, onglets toujours côte à côte)
+  win/gamealert.rs  alerte jeux gratuits (question unique, vérification toutes les 3 h)
+  win/tip.rs     infobulles de l'interface (petite fenêtre flottante sans focus ni clics)
   favicons.rs    cache des icônes de sites
 ui/              interface (chrome.html), pages internes (start, settings, history…),
                  menu déroulant (flyout.html : téléchargements, bouclier, notifications,
-                 dossiers de favoris en cascade, recherche d'onglets), pile de notifications
+                 dossiers de favoris en cascade, recherche d'onglets, suggestions de la barre
+                 d'adresse, autorisations, cadenas), pile de notifications
                  (notify.html), mode lecture (reader.html), listes déroulantes arrondies (select.js)
 ui/vendor/       Readability.js (Mozilla, licence Apache 2.0) pour le mode lecture
 assets/          icône de l'application (vanta.ico, app-icon.svg)
@@ -134,6 +153,22 @@ créés qu'au premier clic.
 
 Données : `%APPDATA%\Vanta` (settings.json, bookmarks.json, session.json, history.sqlite,
 block_stats.json, profil WebView2).
+
+## Traductions
+
+Le texte source est en **français**, directement dans le code. L'anglais vient d'un dictionnaire :
+
+- `ui/i18n-en.json` : `exact` (texte français -> anglais) et `patterns`, des modèles avec
+  trous numérotés (`["{1} favori(s)", "{1} bookmark(s)"]`) ;
+- `ui/i18n.js` : chargé en premier par chaque page interne (`vanta://i18n.js`, précédé de la
+  langue et du dictionnaire), il traduit les textes et les attributs `title`, `placeholder`…
+  dès qu'ils apparaissent (MutationObserver). Un élément `data-notr` (titres de pages, notes,
+  favoris) n'est jamais traduit ; `data-en-html` donne la version anglaise d'un titre mis en forme ;
+- `src/i18n.rs` : `tr()` pour les textes affichés par Windows (boîtes de message, menu
+  contextuel, titres de fenêtres) ;
+- l'installateur a son propre dictionnaire (`installer/ui/setup-en.json`) et réutilise `ui/i18n.js`.
+
+Pour ajouter un texte : l'écrire en français, puis ajouter sa traduction dans le dictionnaire.
 
 ## Sécurité
 
@@ -161,3 +196,18 @@ block_stats.json, profil WebView2).
   (bouton ↗ dans les réglages, chemin `popup.html` supposé).
 - Pas encore de suggestions dans la barre d'adresse ni de menu clic droit natif sur les onglets
   (une barre d'actions le remplace, car les menus HTML seraient masqués par la page).
+
+## Tests de sécurité
+
+- `cargo test` : paquets CRX de test de Chromium (`tests/data/crx`, licence BSD) pour la
+  vérification des extensions ; règles de `security.rs` (origine exacte des pages internes, liens externes
+  bloqués, téléchargements trompeurs, accès aux ressources internes…).
+- `tools/xss-test` : charge chaque page de `ui/` dans un navigateur simulé (jsdom) avec des
+  titres, adresses, noms de fichiers et suggestions piégés, et vérifie qu'aucun code ne peut
+  s'y exécuter ; `autoplay-test.js` vérifie la garde de lecture automatique. Nécessite Node.js :
+
+  ```powershell
+  cd tools\xss-test
+  npm install
+  npm test
+  ```
