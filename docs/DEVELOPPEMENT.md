@@ -84,6 +84,7 @@ mise à jour ne sera acceptée par les installations existantes.
 | **Téléchargements** | Gestion native WebView2 (téléchargement parallèle activé), menu déroulant sous le bouton ↓ avec progression, taille, vitesse et temps restant, pause / reprise / annulation / réessai, double-clic pour ouvrir ou exécuter, anneau de progression sur le bouton |
 | **Démarrage** | Option « Lancer Vanta au démarrage de Windows » (clé `Run` de l'utilisateur) et « Démarrer réduit » |
 | **Navigation privée** | Fenêtre privée (Ctrl+Maj+N, bouton masque de la barre latérale, action d'onglet, clic droit sur un lien) : processus séparé en mode InPrivate, rien n'est conservé à la fermeture (historique, cookies, cache, session, liste des téléchargements, icônes) ; thème violet et badge PRIVÉ |
+| **VPN (Tor)** | `src/tor.rs` : relais SOCKS5 local (127.0.0.1, port au hasard) toujours actif, donné à WebView2 (`--proxy-server`, réseau local en direct) et à ureq (`ALL_PROXY=socks5h://…`) ; VPN coupé = connexion directe (Happy Eyeballs simplifié), activé = Arti (Tor en Rust, lancé au 1er usage), jamais de repli en direct ; chaque bascule coupe les connexions ouvertes (`watch` de génération). WebRTC refusé pendant le VPN : garde injectée dans toutes les pages (`webrtc_guard_js`, fonction secrète par session appelée à chaque bascule). Bouton `#vpn` à côté du bouclier, menu `vpn` du flyout (interrupteur, progression, « Nouvelle identité » = `isolated_client`), Alt+Maj+N ; `Settings.vpn` retenu (pas en privé) |
 | **Lecteur réduit** | Bouton « Lecteur réduit » au survol des vidéos et dans la barre d'outils : picture-in-picture natif de Chromium (geste utilisateur via DevTools `Runtime.evaluate`), repli sur une fenêtre Vanta toujours au premier plan (WebView de l'onglet déplacée avec `reparent`) ; option automatique au changement d'onglet |
 | **Sites fréquents** | Retirables depuis l'accueil (×, annulable) : `hidden_sites.json`, l'historique n'est pas modifié |
 | **Divers** | Historique SQLite, téléchargements, plein écran vidéo, DevTools (F12), couleur d'accent |
@@ -111,6 +112,12 @@ src/
                  ouvertes par les sites, schémas externes bloqués, téléchargements à risque
   blocker.rs     listes de filtres, 2 moteurs adblock-rust (pubs / traqueurs EasyPrivacy)
   import.rs      import Chromium (Bookmarks JSON, History SQLite)
+  blocker.rs     (détail) 2 moteurs adblock (pubs + cosmétique / traqueurs) + table compacte de
+                 domaines HaGeZi Pro (protection renforcée, ~5 Mo) + règles VANTA_STRONG / VANTA_MAX
+                 (niveaux renforcé / maximal, `$third-party`) dans le moteur traqueurs ; requête bloquée = adresse
+                 détournée vers https://0.0.0.0:1/ (échec réseau immédiat), 403 vide pour cadres
+                 et images ; masquage générique : COSMETIC_JS (pages.rs) signale les classes / id,
+                 commande web « cosm » -> hidden_class_id_selectors
   games.rs       flux des jeux gratuits (GamerPower, cache 1 h) + tri des nouveaux pour l'alerte
   theme.rs       thèmes complets (palettes) servis en vanta://theme.css
   i18n.rs        langue (fr / en / celle de Windows) ; dictionnaire ui/i18n-en.json servi avec le
