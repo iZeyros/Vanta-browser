@@ -43,8 +43,9 @@ pour jouer sans que le navigateur te ralentisse.
 - **Thèmes complets** : Vanta, Minuit, Néon, Forêt, Braise et Noir OLED changent toutes les couleurs de l'interface, en plus de la couleur d'accent.
 
 ### 🛡️ Confidentialité
-- **Bloqueur de pubs et de traqueurs** intégré (moteur de Brave, listes EasyList, EasyPrivacy, uBlock et Liste FR). Un clic sur le bouclier ouvre son menu : pubs et traqueurs bloqués sur la page, domaines concernés, total depuis l'installation et interrupteur pour le site.
+- **Bloqueur de pubs et de traqueurs** intégré (moteur de Brave, listes EasyList, EasyPrivacy, uBlock Origin et Liste FR, plus 230 000 domaines de pubs, traqueurs, télémétrie et arnaques en protection renforcée ; niveau Maximal en option pour les bandeaux de cookies, boutons de partage et discussions d'assistance). Les requêtes bloquées échouent vraiment, comme avec uBlock Origin, y compris dans les iframes, et les emplacements de pubs sont masqués sur tous les sites. Un clic sur le bouclier ouvre son menu : pubs et traqueurs bloqués sur la page, domaines concernés, total depuis l'installation et interrupteur pour le site.
 - **Navigation privée** (Ctrl+Maj+N) : fenêtre séparée dont l'historique, les cookies et les données de sites sont effacés à la fermeture.
+- **VPN intégré** (bouton VPN à côté du bouclier, ou Alt+Maj+N) : en un clic, tout passe par le réseau Tor et ton adresse IP est cachée aux sites, sans rien installer ni créer de compte. Tes onglets et tes connexions aux sites sont gardés ; bouton « Nouvelle identité » pour changer d'adresse.
 - **Mots de passe et formulaires** : Vanta propose d'enregistrer tes mots de passe et remplit les formulaires (réglable, effaçable).
 - **Autorisations des sites** : micro, caméra, position, notifications… Vanta te demande avant (« Autoriser » / « Bloquer ») et retient ton choix pour chaque site. Le cadenas de la barre d'adresse permet de changer d'avis.
 - **Téléchargements surveillés** : un programme ou un script demande confirmation avant d'être ouvert, un faux document (« facture.pdf.exe ») est bloqué, un programme reçu sans chiffrement (http) est mis en pause, et chaque fichier est marqué comme venant d'Internet pour que Windows le vérifie.
@@ -105,6 +106,7 @@ L'installateur télécharge toujours la dernière version. **Vanta se met ensuit
 | `Ctrl+Maj+T` | Rouvrir le dernier onglet fermé |
 | `Ctrl+Tab` · `Ctrl+1…9` | Onglet suivant · aller à l'onglet n |
 | `Ctrl+Maj+N` | Fenêtre de navigation privée |
+| `Alt+Maj+N` | Activer ou couper le VPN |
 | `Ctrl+Espace` | Rechercher un onglet, un favori, l'historique |
 | `F9` | Mode lecture |
 | `F11` | Mode immersif (plein écran sans barres) |
