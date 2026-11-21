@@ -116,8 +116,15 @@ src/
                  domaines HaGeZi Pro (protection renforcée, ~5 Mo) + règles VANTA_STRONG / VANTA_MAX
                  (niveaux renforcé / maximal, `$third-party`) dans le moteur traqueurs ; requête bloquée = adresse
                  détournée vers https://0.0.0.0:1/ (échec réseau immédiat), 403 vide pour cadres
-                 et images ; masquage générique : COSMETIC_JS (pages.rs) signale les classes / id,
-                 commande web « cosm » -> hidden_class_id_selectors
+                 et images (repliés dans la page), ressource de remplacement servie en 200 pour
+                 les règles `$redirect=` ; masquage générique : COSMETIC_JS (pages.rs) signale les classes / id,
+                 commande web « cosm » -> hidden_class_id_selectors ; scriptlets (`##+js(...)`) :
+                 ressources de uBlock Origin (docs/ubo/resources.json, GPLv3, téléchargées comme
+                 les listes, listes uBO « de confiance » pour les `trusted-*`), précédées de la
+                 garde MIT `src/adguard.js` (API du lecteur YouTube nettoyée, pubs YouTube passées,
+                 cadres bloqués repliés, Global Privacy Control) ; `scriptlets_for(url)` en cache
+                 par nom d'hôte, ajoutés par onglet en script de document (native.rs
+                 `prepare_scriptlets`, au plus 64 sites, retirés quand les listes changent)
   games.rs       flux des jeux gratuits (GamerPower, cache 1 h) + tri des nouveaux pour l'alerte
   theme.rs       thèmes complets (palettes) servis en vanta://theme.css
   i18n.rs        langue (fr / en / celle de Windows) ; dictionnaire ui/i18n-en.json servi avec le
@@ -218,3 +225,21 @@ Pour ajouter un texte : l'écrire en français, puis ajouter sa traduction dans 
   npm install
   npm test
   ```
+
+## Tests du bloqueur
+
+- `cargo test blocker` : règles de Vanta, scriptlets (liste ordinaire / de confiance, garde,
+  cache), ressources `$redirect=`, exception LinkedIn ; avec les listes et ressources réelles si
+  elles sont dans `/tmp/lists` et `/tmp/ubo-resources.json` (pubs vidéo YouTube : json-prune).
+- `node tools\adguard-test\test.js` : garde anti-pubs (`src/adguard.js`) dans une page
+  simulée : réponses fetch / XHR du lecteur YouTube, `ytInitialPlayerResponse`, pub passée,
+  cadre replié, GPC. Sans dépendance.
+- `docs/ubo/resources.json` se régénère depuis un clone de uBlock Origin (le code n'est jamais
+  exécuté, seulement lu) :
+
+  ```powershell
+  git clone --depth 1 https://github.com/gorhill/uBlock $env:TEMP\ubo
+  python tools\ubo-resources\build.py $env:TEMP\ubo docs\ubo\resources.json
+  ```
+
+  puis mettre à jour le commit dans `docs/ubo/LICENSE.txt` et lancer `publish-readme.ps1`.
