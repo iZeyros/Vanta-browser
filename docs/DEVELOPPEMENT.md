@@ -113,7 +113,8 @@ src/
   blocker.rs     listes de filtres, 2 moteurs adblock-rust (pubs / traqueurs EasyPrivacy)
   import.rs      import Chromium (Bookmarks JSON, History SQLite)
   blocker.rs     (détail) 2 moteurs adblock (pubs + cosmétique / traqueurs) + table compacte de
-                 domaines HaGeZi Pro (protection renforcée, ~5 Mo) + règles VANTA_STRONG / VANTA_MAX
+                 domaines HaGeZi Pro (protection renforcée : noms à l'envers, triés, codés par préfixe
+                 par blocs de 32, ~2,8 Mo au lieu de 5,3 ; fichier `VDS2`) + règles VANTA_STRONG / VANTA_MAX
                  (niveaux renforcé / maximal, `$third-party`) dans le moteur traqueurs ; requête bloquée = adresse
                  détournée vers https://0.0.0.0:1/ (échec réseau immédiat), 403 vide pour cadres
                  et images (repliés dans la page), ressource de remplacement servie en 200 pour
@@ -123,9 +124,14 @@ src/
                  les listes, listes uBO « de confiance » pour les `trusted-*`), précédées de la
                  garde MIT `src/adguard.js` (API du lecteur YouTube nettoyée, pubs YouTube passées,
                  cadres bloqués repliés, Global Privacy Control, anti-empreinte canvas / WebGL /
-                 audio avec une graine tirée à chaque lancement : `blocker::set_farbling`) ; `scriptlets_for(url)` en cache
-                 par nom d'hôte, ajoutés par onglet en script de document (native.rs
-                 `prepare_scriptlets`, au plus 64 sites, retirés quand les listes changent)
+                 audio avec une graine tirée à chaque lancement : `blocker::set_farbling`) ; garde =
+                 UN script de document par onglet (`guard_script(whitelist)` : sites autorisés
+                 vérifiés dans la page avec `location.ancestorOrigins`), puis les scriptlets
+                 des seuls sites de la page affichée qui en ont (`scriptlets_for(url)`, vide
+                 pour la plupart, cache par nom d'hôte) ; native.rs `prepare_scriptlets` :
+                 retirés à chaque nouvelle page, tout refait quand le bloqueur, son état ou
+                 les sites autorisés changent ; le moteur anti-traqueurs ne garde que les
+                 ressources de redirection
   games.rs       flux des jeux gratuits (GamerPower, cache 1 h) + tri des nouveaux pour l'alerte
   wishlist.rs    liste de souhaits (wishlist.json, 100 jeux) et prix CheapShark (recherche, 25 jeux par
                  requête, cache 1 h, noms des boutiques 7 j) ; `alert_for` : seuil, plus bas historique, une
