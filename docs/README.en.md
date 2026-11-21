@@ -40,7 +40,7 @@ automatically; change it in *Settings › General*).
 - **Full themes**: Vanta, Midnight, Neon, Forest, Ember and OLED black, plus your own accent colour.
 
 ### 🛡️ Privacy
-- **Built-in ad and tracker blocker** (Brave's engine, EasyList, EasyPrivacy, uBlock Origin lists, plus 230,000 ad, tracker, telemetry and scam domains in strong mode; optional Maximum level for cookie banners, share buttons and support chats). Blocked requests really fail, like with uBlock Origin, iframes included, and ad slots are hidden on every site.
+- **Built-in ad and tracker blocker** (Brave's engine, EasyList, EasyPrivacy, uBlock Origin lists, plus 230,000 ad, tracker, telemetry and scam domains in strong mode; optional Maximum level for cookie banners, share buttons and support chats). Blocked requests really fail, like with uBlock Origin, iframes included, ad slots are hidden on every site and uBlock Origin scriptlets are supported (YouTube video ads before, during and after videos, adblock detection). Global Privacy Control signal sent to sites.
 - **Private browsing** (Ctrl+Shift+N): history, cookies and site data are cleared when the window closes.
 - **Built-in VPN** (VPN button next to the shield, or Alt+Shift+N): one click routes everything through the Tor network and hides your IP address from sites, with nothing to install and no account. Your tabs and site logins are kept; a “New identity” button changes your address.
 - **Site permissions**: microphone, camera, location… Vanta asks first and remembers your choice for each site.
