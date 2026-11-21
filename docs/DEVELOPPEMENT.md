@@ -84,7 +84,7 @@ mise à jour ne sera acceptée par les installations existantes.
 | **Téléchargements** | Gestion native WebView2 (téléchargement parallèle activé), menu déroulant sous le bouton ↓ avec progression, taille, vitesse et temps restant, pause / reprise / annulation / réessai, double-clic pour ouvrir ou exécuter, anneau de progression sur le bouton |
 | **Démarrage** | Option « Lancer Vanta au démarrage de Windows » (clé `Run` de l'utilisateur) et « Démarrer réduit » |
 | **Navigation privée** | Fenêtre privée (Ctrl+Maj+N, bouton masque de la barre latérale, action d'onglet, clic droit sur un lien) : processus séparé en mode InPrivate, rien n'est conservé à la fermeture (historique, cookies, cache, session, liste des téléchargements, icônes) ; thème violet et badge PRIVÉ |
-| **VPN (Tor)** | `src/tor.rs` : relais SOCKS5 local (127.0.0.1, port au hasard) toujours actif, donné à WebView2 (`--proxy-server`, réseau local en direct) et à ureq (`ALL_PROXY=socks5h://…`) ; VPN coupé = connexion directe (Happy Eyeballs simplifié), activé = Arti (Tor en Rust, lancé au 1er usage), jamais de repli en direct ; chaque bascule coupe les connexions ouvertes (`watch` de génération). WebRTC refusé pendant le VPN : garde injectée dans toutes les pages (`webrtc_guard_js`, fonction secrète par session appelée à chaque bascule). Bouton `#vpn` à côté du bouclier, menu `vpn` du flyout (interrupteur, progression, « Nouvelle identité » = `isolated_client`), Alt+Maj+N ; `Settings.vpn` retenu (pas en privé) |
+| **VPN (Tor)** | `src/tor.rs` : relais SOCKS5 local (127.0.0.1, port au hasard) toujours actif, donné à WebView2 (`--proxy-server`, réseau local en direct) et à ureq (`ALL_PROXY=socks5h://…`) ; VPN coupé = connexion directe (Happy Eyeballs simplifié), activé = Arti (Tor en Rust, lancé au 1er usage), jamais de repli en direct ; chaque bascule coupe les connexions ouvertes (`watch` de génération). WebRTC refusé pendant le VPN : garde injectée dans toutes les pages (`webrtc_guard_js`, fonction secrète par session appelée à chaque bascule). Bouton `#vpn` à côté du bouclier, menu `vpn` du flyout (interrupteur, progression, « Nouvelle identité » = `isolated_client`), Ctrl+Maj+E ; `Settings.vpn` retenu (pas en privé) |
 | **Lecteur réduit** | Bouton « Lecteur réduit » au survol des vidéos et dans la barre d'outils : picture-in-picture natif de Chromium (geste utilisateur via DevTools `Runtime.evaluate`), repli sur une fenêtre Vanta toujours au premier plan (WebView de l'onglet déplacée avec `reparent`) ; option automatique au changement d'onglet |
 | **Sites fréquents** | Retirables depuis l'accueil (×, annulable) : `hidden_sites.json`, l'historique n'est pas modifié |
 | **Divers** | Historique SQLite, téléchargements, plein écran vidéo, DevTools (F12), couleur d'accent |
@@ -122,10 +122,14 @@ src/
                  ressources de uBlock Origin (docs/ubo/resources.json, GPLv3, téléchargées comme
                  les listes, listes uBO « de confiance » pour les `trusted-*`), précédées de la
                  garde MIT `src/adguard.js` (API du lecteur YouTube nettoyée, pubs YouTube passées,
-                 cadres bloqués repliés, Global Privacy Control) ; `scriptlets_for(url)` en cache
+                 cadres bloqués repliés, Global Privacy Control, anti-empreinte canvas / WebGL /
+                 audio avec une graine tirée à chaque lancement : `blocker::set_farbling`) ; `scriptlets_for(url)` en cache
                  par nom d'hôte, ajoutés par onglet en script de document (native.rs
                  `prepare_scriptlets`, au plus 64 sites, retirés quand les listes changent)
   games.rs       flux des jeux gratuits (GamerPower, cache 1 h) + tri des nouveaux pour l'alerte
+  wishlist.rs    liste de souhaits (wishlist.json, 100 jeux) et prix CheapShark (recherche, 25 jeux par
+                 requête, cache 1 h, noms des boutiques 7 j) ; `alert_for` : seuil, plus bas historique, une
+                 alerte par offre ; liens = page de redirection CheapShark (condition de son API)
   theme.rs       thèmes complets (palettes) servis en vanta://theme.css
   i18n.rs        langue (fr / en / celle de Windows) ; dictionnaire ui/i18n-en.json servi avec le
                  traducteur ui/i18n.js en vanta://i18n.js, et tr() pour les textes natifs
@@ -142,6 +146,7 @@ src/
   win/notify.rs  notifications : modèle unique, centre (cloche), actions gardées côté Rust
   win/groups.rs  groupes d'onglets (couleurs, onglets toujours côte à côte)
   win/gamealert.rs  alerte jeux gratuits (question unique, vérification toutes les 3 h)
+  win/pricealert.rs commandes `wish_*` de l'accueil, alerte de prix (toutes les 6 h, 1re après 90 s)
   win/tip.rs     infobulles de l'interface (petite fenêtre flottante sans focus ni clics)
   favicons.rs    cache des icônes de sites
 ui/              interface (chrome.html), pages internes (start, settings, history…),
@@ -233,7 +238,7 @@ Pour ajouter un texte : l'écrire en français, puis ajouter sa traduction dans 
   elles sont dans `/tmp/lists` et `/tmp/ubo-resources.json` (pubs vidéo YouTube : json-prune).
 - `node tools\adguard-test\test.js` : garde anti-pubs (`src/adguard.js`) dans une page
   simulée : réponses fetch / XHR du lecteur YouTube, `ytInitialPlayerResponse`, pub passée,
-  cadre replié, GPC. Sans dépendance.
+  cadre replié, GPC, anti-empreinte (export bruité stable, original intact, audio). Sans dépendance.
 - `docs/ubo/resources.json` se régénère depuis un clone de uBlock Origin (le code n'est jamais
   exécuté, seulement lu) :
 
