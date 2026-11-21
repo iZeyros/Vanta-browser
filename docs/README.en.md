@@ -36,13 +36,15 @@ automatically; change it in *Settings › General*).
 - **Autoplay blocked**: a video or sound that starts on its own is paused until you click in the page (per-site exceptions).
 - **Gaming hub**: the home page lists today's free games (Epic, Steam, GOG, Prime Gaming, itch.io).
 - **Free games alert** (optional): a notification as soon as a game becomes free on the stores you follow.
+- **Wishlist and price alerts**: add games from the start page, Vanta shows the best price across stores (Steam, Epic, GOG, Humble…, via CheapShark) and lets you know when one goes on sale (minimum discount of your choice, all-time low always reported).
 - **Immersive mode** (F11): full screen with no bars; move the mouse to the top of the screen to bring them back.
 - **Full themes**: Vanta, Midnight, Neon, Forest, Ember and OLED black, plus your own accent colour.
 
 ### 🛡️ Privacy
 - **Built-in ad and tracker blocker** (Brave's engine, EasyList, EasyPrivacy, uBlock Origin lists, plus 230,000 ad, tracker, telemetry and scam domains in strong mode; optional Maximum level for cookie banners, share buttons and support chats). Blocked requests really fail, like with uBlock Origin, iframes included, ad slots are hidden on every site and uBlock Origin scriptlets are supported (YouTube video ads before, during and after videos, adblock detection). Global Privacy Control signal sent to sites.
+- **Fingerprinting protection**: sites that identify your browser by drawing an image (canvas) or computing a sound get a slightly scrambled result, different on each site and at each launch.
 - **Private browsing** (Ctrl+Shift+N): history, cookies and site data are cleared when the window closes.
-- **Built-in VPN** (VPN button next to the shield, or Alt+Shift+N): one click routes everything through the Tor network and hides your IP address from sites, with nothing to install and no account. Your tabs and site logins are kept; a “New identity” button changes your address.
+- **Built-in VPN** (VPN button next to the shield, or Ctrl+Shift+E): one click routes everything through the Tor network and hides your IP address from sites, with nothing to install and no account. Your tabs and site logins are kept; a “New identity” button changes your address.
 - **Site permissions**: microphone, camera, location… Vanta asks first and remembers your choice for each site.
 - **Watched downloads**: fake documents (“invoice.pdf.exe”) are blocked, programs sent without encryption are paused, and Vanta asks before opening a program.
 - **No account, no telemetry.** See the [privacy policy](CONFIDENTIALITE.md) (in French).
@@ -78,7 +80,7 @@ Vanta then **updates itself**: every version is signed and checked before it is 
 | `Ctrl+T` / `Ctrl+W` | New tab / close tab |
 | `Ctrl+Shift+T` | Reopen the last closed tab |
 | `Ctrl+Shift+N` | Private window |
-| `Alt+Shift+N` | Turn the VPN on or off |
+| `Ctrl+Shift+E` | Turn the VPN on or off |
 | `Ctrl+Space` | Search tabs, bookmarks and history |
 | `F9` | Reader mode |
 | `F11` | Immersive mode |
