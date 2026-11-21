@@ -4,6 +4,11 @@
 - **Liste de souhaits et alertes de prix** : ajoute des jeux depuis l'accueil (champ « Ajouter un jeu à suivre »). Vanta affiche le meilleur prix toutes boutiques (Steam, Epic, GOG, Humble, Fanatical…, service CheapShark, prix en dollars US) et le plus bas historique, et t'envoie une notification quand un jeu de ta liste passe en promo. La réduction minimale se règle dans *Paramètres › Liste de souhaits* (-20 %, -50 %, -75 % ou -90 %) ; le plus bas historique est toujours signalé.
 - **Protection contre les empreintes** : les sites qui identifient ton navigateur par le dessin d'une image (canvas, WebGL) ou un son calculé reçoivent un résultat légèrement brouillé, différent sur chaque site et à chaque lancement. Rien de visible ni d'audible ; désactivée avec le bloqueur sur les sites autorisés (*Paramètres › Bloqueur & confidentialité*).
 
+### Moins de RAM
+- **Fenêtre réduite** : après 5 s, les pages affichées sont masquées pour WebView2, qui libère la mémoire de leur rendu à l'écran (le son continue, la page revient aussitôt quand tu rouvres Vanta). Particulièrement utile quand tu joues avec Vanta réduit.
+- **Bloqueur** : la table des 230 000 domaines de la protection renforcée occupe 2,8 Mo au lieu de 5,3 (noms rangés à l'envers et partageant leur début), avec le même résultat.
+- **Scripts des pages** : la garde anti-pubs est un seul script par onglet, et les scriptlets d'un site ne sont gardés que tant que sa page est affichée. Avant, chaque cadre de chaque page relisait aussi ceux de YouTube et de tous les sites déjà visités dans l'onglet. Moins de mémoire et pages un peu plus rapides à ouvrir.
+
 ### Bloqueur de pubs
 - **Pubs vidéo YouTube** (avant, pendant et après les vidéos) : prise en charge des scriptlets de uBlock Origin et de sa liste de correctifs rapides (« quick fixes »), mise à jour en continu pour YouTube. Les réponses du lecteur (`playerAds`, `adPlacements`, `adSlots`) sont nettoyées avant d'arriver au lecteur, y compris au premier affichage d'une vidéo ; une pub qui passerait quand même est passée aussitôt.
 - **Ressources de remplacement** (`$redirect=`) : un script neutre ou un pixel transparent est servi à la place d'un traqueur quand la liste le demande, pour que les sites qui en dépendent continuent de fonctionner.
@@ -23,10 +28,10 @@
 
 (Si la 0.2.7 n'a pas été publiée sur le Store, coller d'abord le texte de `docs/NOTES-0.2.7.md` en remplaçant « Alt+Maj+N » par « Ctrl+Maj+E ».)
 
-Liste de souhaits de jeux sur l'accueil avec alertes de prix : meilleur prix toutes boutiques (Steam, Epic, GOG, Humble…) et notification dès qu'un jeu passe en promo. Bloqueur renforcé sur YouTube : les pubs vidéo avant, pendant et après les vidéos sont bloquées grâce aux scriptlets de uBlock Origin. Nouvelle protection contre les empreintes (canvas, audio), signal Global Privacy Control et API publicitaires de Chromium désactivées. Cadres publicitaires repliés, encarts LinkedIn rétablis. Raccourci du VPN : Ctrl+Maj+E.
+Liste de souhaits de jeux sur l'accueil avec alertes de prix : meilleur prix toutes boutiques (Steam, Epic, GOG, Humble…) et notification dès qu'un jeu passe en promo. Bloqueur renforcé sur YouTube : les pubs vidéo avant, pendant et après les vidéos sont bloquées grâce aux scriptlets de uBlock Origin. Nouvelle protection contre les empreintes (canvas, audio), signal Global Privacy Control et API publicitaires de Chromium désactivées. Cadres publicitaires repliés, encarts LinkedIn rétablis. Raccourci du VPN : Ctrl+Maj+E. Moins de RAM quand Vanta est réduit.
 
 ### “What's new in this version” for the English Store listing (copy and paste)
 
 (If 0.2.7 was not published on the Store, first paste the text from `docs/NOTES-0.2.7.md`, replacing “Alt+Shift+N” with “Ctrl+Shift+E”.)
 
-Game wishlist on the start page with price alerts: best price across stores (Steam, Epic, GOG, Humble…) and a notification as soon as a game goes on sale. Stronger blocker on YouTube: video ads before, during and after videos are blocked thanks to uBlock Origin scriptlets. New fingerprinting protection (canvas, audio), Global Privacy Control signal and Chromium's advertising APIs disabled. Blocked ad frames collapsed, LinkedIn embeds work again. VPN shortcut: Ctrl+Shift+E.
+Game wishlist on the start page with price alerts: best price across stores (Steam, Epic, GOG, Humble…) and a notification as soon as a game goes on sale. Stronger blocker on YouTube: video ads before, during and after videos are blocked thanks to uBlock Origin scriptlets. New fingerprinting protection (canvas, audio), Global Privacy Control signal and Chromium's advertising APIs disabled. Blocked ad frames collapsed, LinkedIn embeds work again. VPN shortcut: Ctrl+Shift+E. Less RAM while Vanta is minimized.
