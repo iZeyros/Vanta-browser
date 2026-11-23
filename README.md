@@ -47,6 +47,7 @@ pour jouer sans que le navigateur te ralentisse.
 - **Bloqueur de pubs et de traqueurs** intégré (moteur de Brave, listes EasyList, EasyPrivacy, uBlock Origin et Liste FR, plus 230 000 domaines de pubs, traqueurs, télémétrie et arnaques en protection renforcée ; niveau Maximal en option pour les bandeaux de cookies, boutons de partage et discussions d'assistance). Les requêtes bloquées échouent vraiment, comme avec uBlock Origin, y compris dans les iframes, les emplacements de pubs sont masqués sur tous les sites et les scriptlets de uBlock Origin sont pris en charge (pubs vidéo YouTube avant, pendant et après les vidéos, détection des bloqueurs). Signal Global Privacy Control envoyé aux sites. Un clic sur le bouclier ouvre son menu : pubs et traqueurs bloqués sur la page, domaines concernés, total depuis l'installation et interrupteur pour le site.
 - **Protection contre les empreintes** : les sites qui identifient ton navigateur par le dessin d'une image (canvas) ou un son calculé reçoivent un résultat légèrement brouillé, différent sur chaque site et à chaque lancement.
 - **Navigation privée** (Ctrl+Maj+N) : fenêtre séparée dont l'historique, les cookies et les données de sites sont effacés à la fermeture.
+- **Fenêtre Tor** (bouton oignon du panneau latéral, ou Ctrl+Maj+X) : fenêtre privée où tout passe par le réseau Tor, sans pouvoir le couper. Accès aux **sites en .onion**, recherche par DuckDuckGo en .onion, fuseau horaire et langue standardisés, WebRTC bloqué, empreinte brouillée. Un lien .onion ouvert ailleurs s'y ouvre tout seul.
 - **VPN intégré** (bouton VPN à côté du bouclier, ou Ctrl+Maj+E) : en un clic, tout passe par le réseau Tor et ton adresse IP est cachée aux sites, sans rien installer ni créer de compte. Tes onglets et tes connexions aux sites sont gardés ; bouton « Nouvelle identité » pour changer d'adresse.
 - **Mots de passe et formulaires** : Vanta propose d'enregistrer tes mots de passe et remplit les formulaires (réglable, effaçable).
 - **Autorisations des sites** : micro, caméra, position, notifications… Vanta te demande avant (« Autoriser » / « Bloquer ») et retient ton choix pour chaque site. Le cadenas de la barre d'adresse permet de changer d'avis.
@@ -67,10 +68,15 @@ pour jouer sans que le navigateur te ralentisse.
 - **Lecteur réduit** : survole une vidéo (YouTube, Twitch…) et clique sur « Lecteur réduit ». Elle flotte au-dessus de toutes tes fenêtres, même en jeu.
 - **Écran partagé** : deux pages côte à côte (Ctrl+clic sur un onglet).
 - **Groupes d'onglets** : nom, couleur, repliables d'un clic (clic droit sur un onglet › « Nouveau groupe »).
-- **Recherche d'onglets** (Ctrl+Espace) : retrouve un onglet ouvert, un favori ou une page de l'historique.
+- **Recherche d'onglets** (Ctrl+Maj+A) : retrouve un onglet ouvert, un favori ou une page de l'historique.
 - **Barre de favoris en glisser-déposer** : range tes favoris et dossiers dans l'ordre que tu veux, dépose-y un onglet, un lien d'une page ou un favori de la page des favoris. Un clic sur un dossier ouvre son menu, avec ses sous-dossiers en cascade.
 - **Mode lecture** (F9) : l'article seul, sans pub ni menu, avec taille, police et thème réglables. **Traduction** des pages en un clic.
 - **Fonds d'écran d'accueil** : aurore, grille rétro, particules, ou ton image, GIF ou vidéo.
+- **Thèmes complets** (comme les mods d'Opera GX) : Lofi, Synthwave, Espace, Sakura, Arcade… couleurs, police, forme des onglets, fond d'écran animé, **sons de frappe** et **musique de fond** composée en direct (aucun fichier). Crée les tiens, exporte-les en `.vantatheme`, importe ceux des autres, ou utilise tes propres sons.
+- **Paramètres avec recherche** : tape « musique », « pub » ou « ram » pour trouver le bon réglage.
+- **Personnalisation poussée** : thème sur mesure (fond, texte, arrondi), boutons de la barre d'outils et blocs de la page d'accueil (horloge, recherche, sites fréquents…) à afficher et à ordonner, mode compact, largeur des onglets, barre latérale à gauche, à droite ou masquée.
+- **Capture d'écran** (Ctrl+Maj+S) : une zone, la partie visible ou la page entière, enregistrée dans *Images › Vanta* et copiée dans le presse-papiers.
+- **Mode sombre forcé** : assombrit les sites qui n'ont pas de thème sombre, avec des exceptions par site (cadenas).
 - **Favoris avec dossiers** (sélection multiple), historique, et menu des téléchargements avec progression et temps restant.
 - **Import** des favoris et de l'historique depuis Chrome, Edge, Brave, Opera et Opera GX, et **export** des favoris en fichier HTML standard.
 - **Journal de diagnostic** local (aucune télémétrie) : en cas de problème, *Réglages › Diagnostic › Copier le rapport* pour ouvrir un ticket.
@@ -104,20 +110,39 @@ L'installateur télécharge toujours la dernière version. **Vanta se met ensuit
 
 | Raccourci | Action |
 |---|---|
-| `Ctrl+T` / `Ctrl+W` | Nouvel onglet / fermer l'onglet |
+| `Ctrl+T` | Nouvel onglet |
+| `Ctrl+N` | Nouvelle fenêtre |
+| `Glisser un onglet` | Hors de la fenêtre : nouvelle fenêtre ; sur une autre fenêtre : il la rejoint |
+| `Ctrl+W · Ctrl+F4` | Fermer l'onglet |
 | `Ctrl+Maj+T` | Rouvrir le dernier onglet fermé |
-| `Ctrl+Tab` · `Ctrl+1…9` | Onglet suivant · aller à l'onglet n |
+| `Ctrl+Tab · Ctrl+Maj+Tab` | Onglet suivant · précédent (aussi Ctrl+PgSuiv / PgPréc) |
+| `Ctrl+1…8 · Ctrl+9` | Aller à l'onglet n · au dernier onglet |
+| `Ctrl+Maj+PgSuiv / PgPréc` | Déplacer l'onglet à droite / à gauche |
+| `Ctrl+M` | Couper ou rétablir le son de l'onglet |
+| `Clic du milieu · Ctrl+clic` | Ouvrir un lien dans un onglet en arrière-plan (Ctrl+Maj+clic : au premier plan) |
+| `Ctrl+L · F6 · Alt+D` | Barre d'adresse |
+| `Ctrl+Maj+A` | Rechercher un onglet, un favori, l'historique |
+| `Ctrl+D` | Ajouter aux favoris |
+| `Ctrl+Maj+B` | Afficher ou masquer la barre de favoris |
+| `Ctrl+Maj+O` | Gestionnaire de favoris |
+| `Ctrl+H · Ctrl+J` | Historique · téléchargements |
+| `Alt+P` | Paramètres |
+| `Ctrl+Maj+Suppr` | Effacer les données de navigation |
+| `Alt+Début` | Page d'accueil |
 | `Ctrl+Maj+N` | Fenêtre de navigation privée |
+| `Ctrl+Maj+X` | Fenêtre Tor (anonyme, sites .onion) |
 | `Ctrl+Maj+E` | Activer ou couper le VPN |
-| `Ctrl+Espace` | Rechercher un onglet, un favori, l'historique |
+| `Ctrl+Maj+S` | Capture d'écran d'une zone de la page |
+| `F5 · Ctrl+R` | Actualiser |
+| `Alt+← · Alt+→` | Page précédente · suivante |
+| `Ctrl+F` | Rechercher dans la page |
+| `Ctrl+molette · Ctrl+plus / moins · Ctrl+0` | Zoom de la page (retenu pour le site) · 100 % |
 | `F9` | Mode lecture |
 | `F11` | Mode immersif (plein écran sans barres) |
-| `Ctrl+L` / `F6` | Barre d'adresse (↑ ↓ pour choisir une suggestion) |
-| `Ctrl+molette` · `Ctrl+plus` / `Ctrl+moins` · `Ctrl+0` | Zoom de la page (retenu pour le site) · 100 % |
-| `Ctrl+D` | Ajouter aux favoris |
-| `Ctrl+H` / `Ctrl+J` | Historique / téléchargements |
-| `Ctrl+Maj+O` | Gestionnaire de favoris |
-| `F12` | Outils de développement (sur les sites) |
+| `Ctrl+U` | Source de la page |
+| `F12 · Ctrl+Maj+I` | Outils de développement (sur les sites) |
+
+Tous les raccourcis sont aussi listés dans *Paramètres › Raccourcis clavier*.
 
 ## Sécurité des mises à jour
 
