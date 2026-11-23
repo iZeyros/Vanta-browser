@@ -44,6 +44,7 @@ automatically; change it in *Settings › General*).
 - **Built-in ad and tracker blocker** (Brave's engine, EasyList, EasyPrivacy, uBlock Origin lists, plus 230,000 ad, tracker, telemetry and scam domains in strong mode; optional Maximum level for cookie banners, share buttons and support chats). Blocked requests really fail, like with uBlock Origin, iframes included, ad slots are hidden on every site and uBlock Origin scriptlets are supported (YouTube video ads before, during and after videos, adblock detection). Global Privacy Control signal sent to sites.
 - **Fingerprinting protection**: sites that identify your browser by drawing an image (canvas) or computing a sound get a slightly scrambled result, different on each site and at each launch.
 - **Private browsing** (Ctrl+Shift+N): history, cookies and site data are cleared when the window closes.
+- **Tor window** (onion button in the sidebar, or Ctrl+Shift+X): a private window where everything goes through the Tor network, with no way to turn it off. Reach **.onion sites**, search with DuckDuckGo over .onion, standardized time zone and language, WebRTC blocked, scrambled fingerprint. A .onion link opened elsewhere opens there automatically.
 - **Built-in VPN** (VPN button next to the shield, or Ctrl+Shift+E): one click routes everything through the Tor network and hides your IP address from sites, with nothing to install and no account. Your tabs and site logins are kept; a “New identity” button changes your address.
 - **Site permissions**: microphone, camera, location… Vanta asks first and remembers your choice for each site.
 - **Watched downloads**: fake documents (“invoice.pdf.exe”) are blocked, programs sent without encryption are paused, and Vanta asks before opening a program.
@@ -54,6 +55,11 @@ automatically; change it in *Settings › General*).
 - **Extensions from the Chrome Web Store and Microsoft Edge Add-ons**: click **+ Add to Vanta** on an extension's page. Vanta checks the package's signature, shows its permissions and keeps it up to date.
 - **Notepad** in the side panel, **Discord, YouTube Music, Spotify** or your own sites in the side panel.
 - **Mini player**, **split screen**, **tab groups**, **pinned tabs**, **per-site zoom**, **reader mode** (F9) and **page translation**.
+- **Full themes** (like Opera GX mods): Lofi, Synthwave, Space, Sakura, Arcade… colors, font, tab shape, animated wallpaper, **typing sounds** and **background music** composed live (no files). Create your own, export them as `.vantatheme`, import other people's, or use your own sounds.
+- **Searchable settings**: type “music”, “ads” or “ram” to find the right setting.
+- **Deep customization**: custom theme (background, text, corner rounding), choose and reorder the toolbar buttons and the home page blocks (clock, search, top sites…), compact mode, tab width, sidebar on the left, the right or hidden.
+- **Screenshots** (Ctrl+Shift+S): an area, the visible part or the full page, saved to *Pictures › Vanta* and copied to the clipboard.
+- **Forced dark mode**: darkens websites that have no dark theme, with per-site exceptions (padlock).
 - **Import** bookmarks and history from Chrome, Edge, Brave and Opera, **export** bookmarks to a standard HTML file.
 - **Crash recovery**: a crashed page reloads by itself and your tabs are restored.
 
@@ -77,17 +83,39 @@ Vanta then **updates itself**: every version is signed and checked before it is 
 
 | Shortcut | Action |
 |---|---|
-| `Ctrl+T` / `Ctrl+W` | New tab / close tab |
+| `Ctrl+T` | New tab |
+| `Ctrl+N` | New window |
+| `Drag a tab` | Out of the window: new window; onto another window: it joins it |
+| `Ctrl+W · Ctrl+F4` | Close the tab |
 | `Ctrl+Shift+T` | Reopen the last closed tab |
-| `Ctrl+Shift+N` | Private window |
-| `Ctrl+Shift+E` | Turn the VPN on or off |
-| `Ctrl+Space` | Search tabs, bookmarks and history |
-| `F9` | Reader mode |
-| `F11` | Immersive mode |
-| `Ctrl+L` / `F6` | Address bar |
-| `Ctrl+wheel` · `Ctrl+0` | Zoom (remembered per site) · 100% |
+| `Ctrl+Tab · Ctrl+Shift+Tab` | Next · previous tab (also Ctrl+PgDn / PgUp) |
+| `Ctrl+1…8 · Ctrl+9` | Go to tab n · to the last tab |
+| `Ctrl+Shift+PgDn / PgUp` | Move the tab right / left |
+| `Ctrl+M` | Mute or unmute the tab |
+| `Middle click · Ctrl+click` | Open a link in a background tab (Ctrl+Shift+click: in front) |
+| `Ctrl+L · F6 · Alt+D` | Address bar |
+| `Ctrl+Shift+A` | Search tabs, bookmarks and history |
 | `Ctrl+D` | Bookmark the page |
-| `Ctrl+H` / `Ctrl+J` | History / downloads |
+| `Ctrl+Shift+B` | Show or hide the bookmarks bar |
+| `Ctrl+Shift+O` | Bookmark manager |
+| `Ctrl+H · Ctrl+J` | History · downloads |
+| `Alt+P` | Settings |
+| `Ctrl+Shift+Del` | Clear browsing data |
+| `Alt+Home` | Home page |
+| `Ctrl+Shift+N` | Private window |
+| `Ctrl+Shift+X` | Tor window (anonymous, .onion sites) |
+| `Ctrl+Shift+E` | Turn the VPN on or off |
+| `Ctrl+Shift+S` | Screenshot of an area of the page |
+| `F5 · Ctrl+R` | Reload |
+| `Alt+← · Alt+→` | Previous · next page |
+| `Ctrl+F` | Find in page |
+| `Ctrl+wheel · Ctrl+plus / minus · Ctrl+0` | Page zoom (remembered per site) · 100% |
+| `F9` | Reader mode |
+| `F11` | Immersive mode (full screen without bars) |
+| `Ctrl+U` | Page source |
+| `F12 · Ctrl+Shift+I` | Developer tools (on websites) |
+
+All shortcuts are also listed in *Settings › Keyboard shortcuts*.
 
 ## Licence
 
