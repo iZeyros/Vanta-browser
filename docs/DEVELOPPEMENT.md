@@ -17,6 +17,12 @@ Prérequis : Rust (toolchain MSVC) + Visual Studio Build Tools, et le runtime We
 (présent par défaut sur Windows 10/11). Le premier build prend quelques minutes (SQLite, adblock).
 L'exécutable final est `target\release\vanta.exe`.
 
+Runtime C de Microsoft intégré aux exécutables (`.cargo/config.toml` : `+crt-static`) : `vanta.exe`
+et `VantaSetup.exe` ne dépendent pas du « Visual C++ Redistributable » (sans ça : erreur 0xc000007b
+ou « VCRUNTIME140.dll introuvable » chez certains). `publish-release.ps1` lit la table d'importation
+des deux `.exe` et refuse de publier s'ils dépendent de `vcruntime*`, `msvcp*` ou `api-ms-win-crt-*`.
+Ne pas définir la variable d'environnement `RUSTFLAGS` (elle remplacerait ce réglage).
+
 ## Créer l'installateur
 
 ```powershell
@@ -137,15 +143,53 @@ src/
                  requête, cache 1 h, noms des boutiques 7 j) ; `alert_for` : seuil, plus bas historique, une
                  alerte par offre ; liens = page de redirection CheapShark (condition de son API)
   theme.rs       thèmes complets (palettes) servis en vanta://theme.css
+                 + thème « custom » (fond, texte, arrondi) dont les autres couleurs sont
+                 dérivées par mélange (`mix`), clair ou sombre selon la luminance du fond
+  packs.rs       thèmes complets (« mods ») : thèmes fournis + themes.json, fichiers dans
+                 themes\<id>\ (wallpaper.<ext>, sound-<événement>.<ext>), export / import
+                 .vantatheme (JSON + base64, noms de fichiers en liste blanche, tailles plafonnées)
+  shot.rs        captures d'écran : décodage PNG sans dépendance (pour le bitmap CF_DIB du
+                 presse-papiers), scripts injectés (zone dans une racine fantôme fermée,
+                 horodatage local, taille du document), paramètres de Page.captureScreenshot
   i18n.rs        langue (fr / en / celle de Windows) ; dictionnaire ui/i18n-en.json servi avec le
                  traducteur ui/i18n.js en vanta://i18n.js, et tr() pour les textes natifs
   notes.rs       bloc-notes du panneau latéral (notes.json, limites)
   sysmon.rs      RAM (mémoire privée) / CPU de Vanta + ses processus WebView2
   win/mod.rs     fenêtre tao, WebView enfants, IPC, politique mémoire, limiteurs
   win/native.rs  COM WebView2 (requêtes, CDP, suspension, audio, extensions, plantages,
-                 zoom, autorisations), Job Object CPU, détection de jeu plein écran
+                 zoom, autorisations), Job Object CPU, détection de jeu plein écran ;
+                 raccourcis : `shortcut_for` (table unique, aussi utilisée par l'interface via la
+                 commande `key`) ; menus contextuels : `install_page_menu` (onglets : nouvel
+                 onglet, fenêtre privée, image, recherche de la sélection, traduire, lecture ;
+                 pages internes sans outils) et `install_ui_menu` (interface : menu d'édition
+                 dans les champs seulement, « Coller et y aller » dans la barre d'adresse,
+                 presse-papiers lu par `clipboard_text`)
+  win/windows.rs plusieurs fenêtres : état propre à chaque fenêtre dans `WinState` (`App.w` =
+                 fenêtre traitée, `App.others` = les autres, `switch_to` les échange) ;
+                 `route` dirige chaque événement vers sa fenêtre (onglet, interface) ou celle
+                 au focus ; création dans la boucle d'événements (`pending_windows`) ; onglet
+                 détaché = `take_tab` + `adopt_tab` (WebView2 `reparent`, sans rechargement) ;
+                 2e lancement : canal nommé `vanta-main-<utilisateur>` (`private::forward` /
+                 `listen_main`), message « window » ou une adresse
+  win/private.rs fenêtre privée (`--private`, canal « private ») et fenêtre Tor = `--private --tor`
+                 (`is_tor`, canal « tor », `open_tor`) : relais forcé sur Tor (dossier
+                 tor-window, profil WebView2-Tor), proxy sans contournement (`<-loopback>`),
+                 --lang en-US, CDP fuseau UTC + langue (`native::tor_harden`, à chaque page),
+                 recherche `storage::DDG_ONION` ; .onion ouvert ailleurs -> fenêtre Tor
+                 (`security::is_onion`, garde de navigation). Arti avec `onion-service-client`
   win/omni.rs    suggestions de la barre d'adresse (onglets, favoris, historique, complétion)
   win/site.rs    zoom mémorisé par site, demandes d'autorisation (bulle) et menu du cadenas
+                 ; mode sombre forcé (CDP Emulation.setAutoDarkModeOverride par onglet,
+                 réappliqué à chaque navigation ; exception par site = autorisation « dark »)
+  win/sounds.rs  sons de frappe (script `KEY_SOUND_JS` ajouté aux onglets seulement si activés ;
+                 la page envoie {cmd:"ks", k:"key|space|enter|back"}, jamais la touche),
+                 musique jouée par l'interface de la fenêtre au premier plan (`update_music`,
+                 coupée en mode jeu / onglet sonore), commandes `pack_*`, `sound_*`, `snd_test` ;
+                 ui/sounds.js : synthèse Web Audio des packs et des 4 musiques, sons importés
+                 servis en /sound/<nom>
+  win/shot.rs    capture : Runtime.evaluate (zone / taille) puis Page.captureScreenshot ;
+                 enregistrement et presse-papiers (PNG + CF_DIB) dans un fil à part ;
+                 seules les captures récentes s'ouvrent depuis la notification
   win/crash.rs   récupération après plantage (rechargement, page « Oups », redémarrage)
   win/extensions.rs  bouton Extensions : liste et popup d'extension sous le bouton
   win/pages.rs   pages internes vanta:// embarquées + script injecté dans les onglets
